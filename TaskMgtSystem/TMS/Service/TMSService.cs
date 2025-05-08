@@ -75,6 +75,43 @@ public class TMSService : ITMSService
         }
     }
 
+    public async Task<ApiResponse> UpdateTaskAsync(TaskDto taskDto)
+    {
+        var logUuid = Guid.NewGuid();
+        var curDateTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
+        try
+        {
+            var task = new Task
+            {
+                Id = taskDto.Id,
+                Title = taskDto.Title,
+                Description = taskDto.Description,
+                DueDate = taskDto.DueDate,
+                Priority = taskDto.Priority,
+                Status = taskDto.Status,
+                AssignedToUserId = taskDto.AssignedToUserId,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            var UpdatedTaskId = await _repository.UpdateTaskAsync(task);
+
+            if (UpdatedTaskId <= 0)
+            {
+                return ErrorCodeResponse("500", "Error updating task", curDateTime + " " + logUuid);
+            }
+            else
+            {
+                return SuccessResponse("200", "Task updated successfully", UpdatedTaskId, curDateTime + " " + logUuid);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            WriteLog("[Error]" + curDateTime + " " + logUuid + "Api Response");
+            throw ex;
+        }
+    }
+
     public void WriteLog(string logData)
     {
         _logger.LogInformation(logData);

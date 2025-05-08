@@ -27,5 +27,12 @@ public class TaskController : ControllerBase
         var response = await _service.DeleteTaskAsync(id);
         return Ok(response);
     }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateTask([FromBody] TaskDto taskDto)
+    {
+        var response = await _service.UpdateTaskAsync(taskDto);
+        return Ok(response);
+    }
     
 }
