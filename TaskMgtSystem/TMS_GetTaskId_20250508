@@ -1,0 +1,16 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE OR ALTER PROCEDURE [dbo].[TMS_GetTaskId_20250508]
+    @tId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    SELECT Id, Title, Description, DueDate, Priority, Status, CreatedAt, UpdatedAt
+    FROM   TMS_tbl_Task_20250508
+    WHERE  Id = @tId;
+END
+
+GO
