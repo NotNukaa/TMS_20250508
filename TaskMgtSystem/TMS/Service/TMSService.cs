@@ -111,11 +111,37 @@ public class TMSService : ITMSService
             throw ex;
         }
     }
-
+    
+    public async Task<List<ApiResponse>> GetAllTasksAsync()
+    {
+        var logUuid = Guid.NewGuid();
+        var curDateTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");;
+    
+        try
+        {
+            var getAllTask = await _repository.GetAllTaskAsync();
+    
+            if (getAllTask == null)
+            {
+                return new List<ApiResponse> { ErrorCodeResponse("500", "Error getting task", curDateTime + " " + logUuid) };
+            }
+            else
+            {
+                return new List<ApiResponse> { SuccessResponse("200", "Task getting successfully", getAllTask, curDateTime + " " + logUuid) };
+            }
+        }
+        catch (Exception ex)
+        {
+            WriteLog("[Error]" + curDateTime + " " + logUuid + "Api Response");
+            throw ex;
+        }
+    }
+    
+    
     public async Task<ApiResponse> GetTaskAsync(int id)
     {
         var logUuid = Guid.NewGuid();
-        var curDateTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
+        var curDateTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");;
 
         try
         {
@@ -129,7 +155,6 @@ public class TMSService : ITMSService
             {
                 return SuccessResponse("200", "Task getting successfully", getTask, curDateTime + " " + logUuid);
             }
-
         }
         catch (Exception ex)
         {
@@ -137,38 +162,7 @@ public class TMSService : ITMSService
             throw ex;
         }
     }
-
-    // public async Task<ApiResponse> GetTaskAsync(int id)
-    // {
-    //     var logUuid = Guid.NewGuid();
-    //     var curDateTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
-    //
-    //     try
-    //     {
-    //         var task = new Task
-    //         {
-    //             Id = id
-    //         };
-    //         
-    //         var GetTaskAsync = _repository.GetTaskAsync(task);
-    //
-    //         if (GetTaskAsync == null)
-    //         {
-    //             return ErrorCodeResponse("500", "Error to Get the task", curDateTime + " " + logUuid);
-    //         }
-    //         else
-    //         {
-    //             return SuccessResponse("200", "Task Get successfully", GetTaskAsync, curDateTime + " " + logUuid);
-    //         }
-    //     }
-    //     catch (Exception ex)
-    //     {
-    //         WriteLog("[Error]" + curDateTime + " " + logUuid + "Api Response");
-    //         throw ex;
-    //     }
-    // }
     
-
     public void WriteLog(string logData)
     {
         _logger.LogInformation(logData);

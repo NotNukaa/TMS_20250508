@@ -12,4 +12,6 @@ public interface ITMSService
     Task<ApiResponse> UpdateTaskAsync(TaskDto taskDto);
     
     Task<ApiResponse> GetTaskAsync (int id);
+    
+    Task<List<ApiResponse>> GetAllTasksAsync();
 }

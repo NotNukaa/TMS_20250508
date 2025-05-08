@@ -77,23 +77,6 @@ public class TMSRepository : ITMSRepository
         return task.Id; 
     }
 
-    // public async Task<int> GetTaskAsync(int id)
-    // {
-    //     using var conn = new SqlConnection(_connString);
-    //     await conn.OpenAsync();
-    //
-    //     var param = new DynamicParameters();
-    //     param.Add("@tId", id);
-    //
-    //     var result = await conn.QueryFirstOrDefaultAsync<int>
-    //     (
-    //         "TMS_GetTaskId_20250508",
-    //         param,
-    //         commandType: CommandType.StoredProcedure
-    //     );
-    //     
-    //     return result;
-    // }
     
     public async Task<TaskDto> GetTaskAsync(int id)
     {
@@ -111,6 +94,33 @@ public class TMSRepository : ITMSRepository
 
         return result;
     }
+    
+    public async Task<List<TaskDto>> GetAllTaskAsync()
+    {
+        using var conn = new SqlConnection(_connString);
+        await conn.OpenAsync();
+    
+        var result = await conn.QueryAsync<TaskDto>(
+            "TMS_GetAllTask_20250508",
+            commandType: CommandType.StoredProcedure
+        );
+    
+        return result.ToList(); // Explicitly convert to List
+    }
+
+    // public async Task<<TaskDto> GetAllTaskAsync()
+    // {
+    //     using var conn = new SqlConnection(_connString);
+    //     await conn.OpenAsync();
+    //     
+    //     var result = await conn.QueryAsync<TaskDto>
+    //     (
+    //         "TMS_GetAllTask_20250508",
+    //         commandType: CommandType.StoredProcedure
+    //     );
+    //     return result;
+    // }
+
     
     
 }
