@@ -1,5 +1,4 @@
-namespace TaskMgtSystem.TMS.Repositories;
-
+namespace TMSSystem.TaskMgtSystem.TMS.Repositories;
 public class ApiResponse
 {
     public string Code { get; set; }

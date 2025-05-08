@@ -1,8 +1,9 @@
-using TaskMgtSystem.TMS.Repositories;
-using Task = TaskMgtSystem.TMS.Repositories.Task;
-using TaskStatus = TaskMgtSystem.TMS.Repositories.TaskStatus;
+using TMSSystem.TaskMgtSystem.TMS.Repositories;
+using TMSSystem.TaskMgtSystem.TMS.Service;
+using Task = TMSSystem.TaskMgtSystem.TMS.Repositories.Task;
+using TaskStatus = TMSSystem.TaskMgtSystem.TMS.Repositories.TaskStatus;
 
-namespace TaskMgtSystem.TMS.Service;
+namespace TMSSystem.TaskMgtSystem.TMS.Service;
 
 public class TMSService : ITMSService
 {
@@ -42,6 +43,30 @@ public class TMSService : ITMSService
                 return SuccessResponse("200", "Task created successfully", CreatedTaskId, curDateTime + " " + logUuid);
             }
             
+        }
+        catch (Exception ex)
+        {
+            WriteLog("[Error]" + curDateTime + " " + logUuid + "Api Response");
+            throw ex;
+        }
+    }
+
+    public async Task<ApiResponse> DeleteTaskAsync(int id)
+    {
+        var logUuid = Guid.NewGuid();
+        var curDateTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");;
+        try
+        {
+            var DeletedTaskId = await _repository.DeleteTaskAsync(id);
+
+            if (DeletedTaskId <= 0)
+            {
+                return ErrorCodeResponse("500", "Error deleting task", curDateTime + " " + logUuid);
+            }
+            else
+            {
+                return SuccessResponse("200", "Task deleted successfully", DeletedTaskId, curDateTime + " " + logUuid);
+            }
         }
         catch (Exception ex)
         {

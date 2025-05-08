@@ -2,7 +2,7 @@ using System.Data;
 using Dapper;
 using Microsoft.Data.SqlClient;
 
-namespace TaskMgtSystem.TMS.Repositories;
+namespace TMSSystem.TaskMgtSystem.TMS.Repositories;
 
 public class TMSRepository : ITMSRepository
 {
@@ -35,5 +35,23 @@ public class TMSRepository : ITMSRepository
         );
         return task.Title.Length; 
     }
+
+    public async Task<int> DeleteTaskAsync(int id)
+    {
+        using var conn = new SqlConnection(_connString);
+        await conn.OpenAsync();
+        
+        var param = new DynamicParameters();
+        param.Add("@tId", id);
+
+        await conn.ExecuteAsync
+        (
+            "TMS_DeleteTask_20250508",
+            param,
+            commandType: CommandType.StoredProcedure
+        );
+        return id;
+    }
+    
     
 }

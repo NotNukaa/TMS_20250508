@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using TaskMgtSystem.TMS.Repositories;
-using TaskMgtSystem.TMS.Service;
+using TMSSystem.TaskMgtSystem.TMS.Repositories;
+using TMSSystem.TaskMgtSystem.TMS.Service;
 
 namespace TaskMgtSystem.TMS.Controller;
 
@@ -21,4 +21,11 @@ public class TaskController : ControllerBase
         var response = await _service.CreateTaskAsync(request);
         return Ok(response);
     }
+    [HttpDelete] 
+    public async Task<IActionResult> DeleteTask(int id)
+    {
+        var response = await _service.DeleteTaskAsync(id);
+        return Ok(response);
+    }
+    
 }

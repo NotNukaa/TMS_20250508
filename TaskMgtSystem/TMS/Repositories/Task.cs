@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace TaskMgtSystem.TMS.Repositories;
+namespace TMSSystem.TaskMgtSystem.TMS.Repositories;
 
 public class Task
 {
