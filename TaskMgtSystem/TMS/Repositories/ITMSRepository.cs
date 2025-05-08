@@ -6,5 +6,5 @@ public interface ITMSRepository
     Task<int> DeleteTaskAsync(int id);
     
     Task<int> UpdateTaskAsync(Task task);
-    
+    Task<TaskDto> GetTaskAsync(int id);
 }

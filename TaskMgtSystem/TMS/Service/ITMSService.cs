@@ -8,6 +8,8 @@ public interface ITMSService
 {
     Task<ApiResponse> CreateTaskAsync (TaskCreateRequest request);
     Task<ApiResponse> DeleteTaskAsync (int id);
+
+    Task<ApiResponse> UpdateTaskAsync(TaskDto taskDto);
     
-    Task<ApiResponse> UpdateTaskAsync (TaskDto taskDto);
+    Task<ApiResponse> GetTaskAsync (int id);
 }

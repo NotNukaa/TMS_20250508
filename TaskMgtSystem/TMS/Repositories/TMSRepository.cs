@@ -76,6 +76,41 @@ public class TMSRepository : ITMSRepository
         );
         return task.Id; 
     }
+
+    // public async Task<int> GetTaskAsync(int id)
+    // {
+    //     using var conn = new SqlConnection(_connString);
+    //     await conn.OpenAsync();
+    //
+    //     var param = new DynamicParameters();
+    //     param.Add("@tId", id);
+    //
+    //     var result = await conn.QueryFirstOrDefaultAsync<int>
+    //     (
+    //         "TMS_GetTaskId_20250508",
+    //         param,
+    //         commandType: CommandType.StoredProcedure
+    //     );
+    //     
+    //     return result;
+    // }
+    
+    public async Task<TaskDto> GetTaskAsync(int id)
+    {
+        using var conn = new SqlConnection(_connString);
+        await conn.OpenAsync();
+
+        var param = new DynamicParameters();
+        param.Add("@tId", id);
+        
+        var result = await conn.QueryFirstOrDefaultAsync<TaskDto>(
+            "TMS_GetTaskId_20250508",
+            param,
+            commandType: CommandType.StoredProcedure
+        );
+
+        return result;
+    }
     
     
 }

@@ -112,6 +112,63 @@ public class TMSService : ITMSService
         }
     }
 
+    public async Task<ApiResponse> GetTaskAsync(int id)
+    {
+        var logUuid = Guid.NewGuid();
+        var curDateTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
+
+        try
+        {
+            var getTask = await _repository.GetTaskAsync(id);
+
+            if (getTask == null)
+            {
+                return ErrorCodeResponse("500", "Error getting task", curDateTime + " " + logUuid);
+            }
+            else
+            {
+                return SuccessResponse("200", "Task getting successfully", getTask, curDateTime + " " + logUuid);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            WriteLog("[Error]" + curDateTime + " " + logUuid + "Api Response");
+            throw ex;
+        }
+    }
+
+    // public async Task<ApiResponse> GetTaskAsync(int id)
+    // {
+    //     var logUuid = Guid.NewGuid();
+    //     var curDateTime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss");
+    //
+    //     try
+    //     {
+    //         var task = new Task
+    //         {
+    //             Id = id
+    //         };
+    //         
+    //         var GetTaskAsync = _repository.GetTaskAsync(task);
+    //
+    //         if (GetTaskAsync == null)
+    //         {
+    //             return ErrorCodeResponse("500", "Error to Get the task", curDateTime + " " + logUuid);
+    //         }
+    //         else
+    //         {
+    //             return SuccessResponse("200", "Task Get successfully", GetTaskAsync, curDateTime + " " + logUuid);
+    //         }
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         WriteLog("[Error]" + curDateTime + " " + logUuid + "Api Response");
+    //         throw ex;
+    //     }
+    // }
+    
+
     public void WriteLog(string logData)
     {
         _logger.LogInformation(logData);

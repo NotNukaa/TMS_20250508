@@ -35,4 +35,10 @@ public class TaskController : ControllerBase
         return Ok(response);
     }
     
+    [HttpGet] 
+    public async Task<IActionResult> GetTask(int id)
+    {
+        var response = await _service.GetTaskAsync(id);
+        return Ok(response);
+    }
 }
