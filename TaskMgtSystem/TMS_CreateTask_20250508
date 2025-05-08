@@ -1,0 +1,25 @@
+ALTER PROCEDURE [dbo].[TMS_CreateTask_20250508]
+    @Title NVARCHAR(100),
+    @Description NVARCHAR(500) = NULL,
+    @DueDate DATETIME,
+    @Priority TINYINT,
+    @CreatedAt DATETIME = NULL,
+    @UpdatedAt DATETIME = NULL,
+    @CreatedBy NVARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    IF @CreatedAt IS NULL
+        SET @CreatedAt = GETUTCDATE();
+    
+    INSERT INTO TMS_tbl_Task_20250508 ( Title, Description, DueDate, Priority, Status, CreatedAt, UpdatedAt, CreatedBy )
+    VALUES ( @Title, @Description, @DueDate, @Priority, 0, @CreatedAt, @UpdatedAt, @CreatedBy);
+    
+    -- SET @tId = SCOPE_IDENTITY();
+
+    -- SELECT @tId;
+    RETURN 0; -- Success
+END
+go
+
